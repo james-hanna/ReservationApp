@@ -6,6 +6,7 @@ export default function ReservationItem({ reservation }) {
     last_name,
     mobile_number,
     reservation_time,
+    reservation_date,
   } = reservation;
   return (
     <li className="reservation-list-item">
@@ -13,6 +14,7 @@ export default function ReservationItem({ reservation }) {
       <div>{`Name: ${first_name} ${last_name}`}</div>
       <div>{`Phone: ${mobile_number}`}</div>
       <div>{`Time: ${reservation_time}`}</div>
+      <div>{`Date: ${reservation_date}`}</div>
     </li>
   );
 }
