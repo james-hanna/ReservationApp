@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationDisplay from "./ReservationDisplay";
+import { useHistory } from "react-router-dom";
+import {previous, today, next} from "../utils/date-time";
 
 /**
  * Defines the dashboard page.
@@ -9,10 +11,11 @@ import ReservationDisplay from "./ReservationDisplay";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
-function Dashboard({ date }) {
+ export default function Dashboard({ date }) {
+
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-
+  const history = useHistory();
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
@@ -29,13 +32,28 @@ function Dashboard({ date }) {
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Reservations for {date}</h4>
-
+        <button
+          type="button"
+          onClick={() => history.push(`/dashboard?date=${previous(date)}`)}
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          onClick={() => history.push(`/dashboard?date=${today()}`)}
+        >
+          Today
+        </button>
+        <button
+          type="button"
+          onClick={() => history.push(`/dashboard?date=${next(date)}`)}
+        >
+          Next
+        </button>
       </div>
       <ErrorAlert error={reservationsError} />
       <ReservationDisplay reservations={reservations} />
-      {/*JSON.stringify(reservations)*/}
     </main>
   );
 }
 
-export default Dashboard;
