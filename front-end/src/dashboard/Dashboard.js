@@ -5,6 +5,7 @@ import ReservationDisplay from "./ReservationDisplay";
 import { useHistory } from "react-router-dom";
 import {previous, today, next} from "../utils/date-time";
 
+
 /**
  * Defines the dashboard page.
  * @param date
@@ -26,7 +27,7 @@ import {previous, today, next} from "../utils/date-time";
       .catch(setReservationsError);
     return () => abortController.abort();
   }
-
+  const filteredList = reservations.filter((res) => res.reservation_date === date)
   return (
     <main>
       <h1>Dashboard</h1>
@@ -52,7 +53,7 @@ import {previous, today, next} from "../utils/date-time";
         </button>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationDisplay reservations={reservations} />
+      <ReservationDisplay filteredList={filteredList} />
     </main>
   );
 }
