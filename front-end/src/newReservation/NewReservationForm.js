@@ -12,7 +12,7 @@ export default function NewReservationForm() {
     mobile_number: "",
     reservation_date: "",
     reservation_time: "",
-    people: 1,
+    people: "",
   };
   const [errors, setErrors] = useState([]);
 
@@ -22,11 +22,10 @@ export default function NewReservationForm() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    if (checkBusinessHours() === true) {
+    if (checkBusinessHours()) {
       await createReservation(reservationData).then((res) =>
-        history.push(`/dashboard`)
+        history.push(`/dashboard?date=${reservationData.reservation_date}`)
       );
-      setReservationData({ ...initialReservationData });
     }
   };
 
@@ -39,10 +38,8 @@ export default function NewReservationForm() {
 
   const cancelHandler = async (event) => {
     event.preventDefault();
-    if (window.confirm("Cancel reservation?")) {
-      setReservationData({ ...initialReservationData });
-      history.goBack();
-    }
+    setReservationData({ ...initialReservationData })
+    history.goBack();
   };
 
   const checkBusinessHours = async () => {
@@ -59,11 +56,13 @@ export default function NewReservationForm() {
     }
     if (
       reservationDate.getHours() < 10 ||
-      (reservationDate.getHours() === 10 && reservationDate.getMinutes() >= 30)
+      (reservationDate.getHours() === 10 &&
+        reservationDate.getMinutes() >= 30) ||
+      reservationDate.getHours() >= 22
     ) {
       foundErrors.push({ message: "The Restaurant opens at 10:30am" });
     } else if (
-      reservationDate.getHours() >= 21 &&
+      reservationDate.getHours() === 21 &&
       reservationDate.getMinutes() >= 30
     ) {
       foundErrors.push({
