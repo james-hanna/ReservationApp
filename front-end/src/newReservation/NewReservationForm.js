@@ -12,7 +12,7 @@ export default function NewReservationForm() {
     mobile_number: "",
     reservation_date: "",
     reservation_time: "",
-    people: "",
+    people: 0,
   };
   const [errors, setErrors] = useState([]);
 
@@ -22,23 +22,31 @@ export default function NewReservationForm() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    if (checkBusinessHours()) {
-      await createReservation(reservationData).then((res) =>
-        history.push(`/dashboard?date=${reservationData.reservation_date}`)
-      );
+      if (checkBusinessHours()) {
+        await createReservation(reservationData)
+        .then((res) => history.push(`/dashboard?date=${reservationData.reservation_date}`)
+        );
+      }
     }
-  };
 
-  const changeHandler = async ({ target }) => {
+
+  const changeHandler = ({ target }) => {
     setReservationData({
       ...reservationData,
       [target.name]: target.value,
     });
   };
+  const peopleHandler = ({ target }) => {
+    setReservationData({
+      ...reservationData,
+      [target.name]: Number(target.value),
+    });
+  };
+
 
   const cancelHandler = async (event) => {
     event.preventDefault();
-    setReservationData({ ...initialReservationData })
+    setReservationData({ ...initialReservationData });
     history.goBack();
   };
 
@@ -131,11 +139,9 @@ export default function NewReservationForm() {
       />
       <input
         value={reservationData.people}
-        onChange={changeHandler}
+        onChange={peopleHandler}
         id="people"
-        min="1"
-        max="6"
-        placeholder="People"
+        placeholder="1"
         type="number"
         name="people"
         required
