@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import { next } from "../utils/date-time";
 
 export default function NewReservationForm() {
   const history = useHistory();
@@ -22,13 +23,12 @@ export default function NewReservationForm() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-      if (checkBusinessHours()) {
-        await createReservation(reservationData)
-        .then((res) => history.push(`/dashboard?date=${reservationData.reservation_date}`)
-        );
-      }
+    if (checkBusinessHours() !== false) {
+      await createReservation(reservationData).then((res) =>
+        history.push(`/dashboard?date=${reservationData.reservation_date}`)
+      );
     }
-
+  };
 
   const changeHandler = ({ target }) => {
     setReservationData({
@@ -42,7 +42,6 @@ export default function NewReservationForm() {
       [target.name]: Number(target.value),
     });
   };
-
 
   const cancelHandler = async (event) => {
     event.preventDefault();
@@ -65,7 +64,7 @@ export default function NewReservationForm() {
     if (
       reservationDate.getHours() < 10 ||
       (reservationDate.getHours() === 10 &&
-        reservationDate.getMinutes() >= 30) ||
+        reservationDate.getMinutes() <= 30) ||
       reservationDate.getHours() >= 22
     ) {
       foundErrors.push({ message: "The Restaurant opens at 10:30am" });
@@ -79,10 +78,11 @@ export default function NewReservationForm() {
       });
     }
     setErrors(foundErrors);
-    if (foundErrors.length > 0) {
+    if (errors.length > 0) {
       return false;
+    } else {
+      next();
     }
-    return true;
   };
 
   const errorList = () => {

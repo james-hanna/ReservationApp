@@ -1,14 +1,16 @@
 const service = require("./reservations.services");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-function validateReservation(req, res, next) {
-  if (!req.body.data) {
-    next({
-      status: 400,
-      message: "No Reservation data found",
-    });
-  }
+const hasProperties = require("../errors/hasProperties")(
+  "first_name",
+  "last_name",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+  "people"
+);
 
+function validateReservation(req, res, next) {
   const {
     first_name,
     last_name,
@@ -18,50 +20,58 @@ function validateReservation(req, res, next) {
     people,
   } = req.body.data;
 
-  const validDate = /\d\d\d\d-\d\d-\d\d/;
-  const validTime = /\d\d\:\d\d/;
+  const validDateFormat = /\d\d\d\d-\d\d-\d\d/;
+  const validTimeFormat = /\d\d\:\d\d/;
   const validPeople = typeof people === "number";
+  const isValidDate = reservation_date.match(validDateFormat);
+  const isValidTime = reservation_time.match(validTimeFormat);
+  const today = new Date();
+  const reservationDate = new Date(
+    `${reservation_date}T${reservation_time}:00.000`
+  );
 
-  if (!first_name || first_name === "") {
-    next({
+  if (
+    reservationDate.getHours() < 10 ||
+    (reservationDate.getHours() === 10 && reservationDate.getMinutes() < 30)
+  ) {
+    return next({
       status: 400,
-      message: "Reservation must have first_name",
-    });
-  } else if (!last_name || last_name === "") {
-    next({
-      status: 400,
-      message: "Reservation must have last_name",
-    });
-  } else if (!mobile_number || mobile_number === "") {
-    next({
-      status: 400,
-      message: "Reservation must have mobile_number",
+      message: "Error: Restaurant is will open at 10:30AM.",
     });
   } else if (
-    !reservation_date ||
-    reservation_date === "" ||
-    !reservation_date.match(validDate)
+    reservationDate.getHours() > 22 ||
+    (reservationDate.getHours() === 22 && reservationDate.getMinutes() >= 30)
   ) {
-    next({
+    return next({
       status: 400,
-      message: "Reservation must have reservation_date",
+      message: "Error: Restaurant is closed after 10:30PM.",
     });
   } else if (
-    !reservation_time ||
-    reservation_time === "" ||
-    !reservation_time.match(validTime)
+    reservationDate.getHours() > 21 ||
+    (reservationDate.getHours() === 21 && reservationDate.getMinutes() > 30)
   ) {
-    next({
+    return next({
       status: 400,
-      message: "Reservation must have reservation_time",
-    });
-  } else if (!people || people === 0 || validPeople === false) {
-    next({
-      status: 400,
-      message: "Reservation must have a people value",
+      message:
+        "Error: Reservation must be made at least an hour before closing.",
     });
   }
-  return next();
+  if (
+    isValidDate &&
+    reservationDate.getDay() !== 2 &&
+    reservationDate >= today &&
+    isValidTime &&
+    validPeople
+  ) {
+    next();
+  } else {
+    next({
+      status: 400,
+      message:
+        "Invalid data format provided. Requires {string: [first_name, last_name, mobile_number], date: reservation_date, time: reservation_time, number: people}" +
+        "Restaurant cannot be closed, reservation must be in the future",
+    });
+  }
 }
 
 async function create(req, res, next) {
@@ -87,6 +97,6 @@ async function list(req, res, next) {
 }
 
 module.exports = {
-  create: [asyncErrorBoundary(validateReservation), asyncErrorBoundary(create)],
+  create: [hasProperties, asyncErrorBoundary(validateReservation), asyncErrorBoundary(create)],
   list,
 };
