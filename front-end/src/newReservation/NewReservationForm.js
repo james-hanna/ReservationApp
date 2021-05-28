@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import { next } from "../utils/date-time";
 
 export default function NewReservationForm() {
   const history = useHistory();
@@ -36,6 +35,7 @@ export default function NewReservationForm() {
       [target.name]: target.value,
     });
   };
+
   const peopleHandler = ({ target }) => {
     setReservationData({
       ...reservationData,
@@ -78,11 +78,7 @@ export default function NewReservationForm() {
       });
     }
     setErrors(foundErrors);
-    if (errors.length > 0) {
-      return false;
-    } else {
-      next();
-    }
+    return foundErrors.length === 0;
   };
 
   const errorList = () => {

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
+import React from "react";
 import ReservationDisplay from "./ReservationDisplay";
+import TableDisplay from "./TableDisplay";
 import { useHistory } from "react-router-dom";
-import {previous, today, next} from "../utils/date-time";
-
+import { previous, today, next } from "../utils/date-time";
 
 /**
  * Defines the dashboard page.
@@ -12,22 +10,19 @@ import {previous, today, next} from "../utils/date-time";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
- export default function Dashboard({ date }) {
-
-  const [reservations, setReservations] = useState([]);
-  const [reservationsError, setReservationsError] = useState(null);
+export default function Dashboard({
+  date,
+  reservations,
+  reservationsError,
+  tables,
+  tablesError,
+  loadTables,
+  loadReservations
+}) {
   const history = useHistory();
-  useEffect(loadDashboard, [date]);
-
-  function loadDashboard() {
-    const abortController = new AbortController();
-    setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
-    return () => abortController.abort();
-  }
-  const filteredList = reservations.filter((res) => res.reservation_date === date)
+  const filteredReservations = reservations.filter(
+    (res) => res.reservation_date === date
+  );
   return (
     <main>
       <h1>Dashboard</h1>
@@ -52,9 +47,12 @@ import {previous, today, next} from "../utils/date-time";
           Next
         </button>
       </div>
-      <ErrorAlert error={reservationsError} />
-      <ReservationDisplay filteredList={filteredList} />
+      <div>
+        <ReservationDisplay filteredList={filteredReservations} />
+      </div>
+      <div>
+        <TableDisplay tables={tables} loadTables={loadTables} loadReservations={loadReservations}/>
+      </div>
     </main>
   );
 }
-

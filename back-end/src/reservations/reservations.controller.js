@@ -7,8 +7,40 @@ const hasProperties = require("../errors/hasProperties")(
   "mobile_number",
   "reservation_date",
   "reservation_time",
-  "people"
+  "people",
 );
+
+async function create(req, res, next) {
+  service
+    .create(req.body.data)
+    .then((data) => res.status(201).json({ data }))
+    .catch(next);
+}
+
+async function list(req, res, next) {
+  let reservations;
+  if (req.query.date) {
+    reservations = await service.listByDate(req.query.date);
+  } else {
+    reservations = await service.list();
+  }
+  if (reservations.length > 1) {
+    reservations.sort((a, b) =>
+      a.reservation_time.localeCompare(b.reservation_time)
+    );
+  }
+  res.json({ data: reservations });
+}
+async function listById(req, res, next) {
+  let id = req.params.reservation_Id;
+  const reservationById = await service.listById(id);
+  reservationById
+    ? res.json({ data: reservationById })
+    : next({
+        status: 404,
+        message: `Reservation Id: ${id} Not Found`,
+      });
+}
 
 function validateReservation(req, res, next) {
   const {
@@ -74,29 +106,14 @@ function validateReservation(req, res, next) {
   }
 }
 
-async function create(req, res, next) {
-  service
-    .create(req.body.data)
-    .then((data) => res.status(201).json({ data }))
-    .catch(next);
-}
 
-async function list(req, res, next) {
-  let reservations;
-  if (req.query.date) {
-    reservations = await service.listByDate(req.query.date);
-  } else {
-    reservations = await service.list();
-  }
-  if (reservations.length > 1) {
-    reservations.sort((a, b) =>
-      a.reservation_time.localeCompare(b.reservation_time)
-    );
-  }
-  res.json({ data: reservations });
-}
 
 module.exports = {
-  create: [hasProperties, asyncErrorBoundary(validateReservation), asyncErrorBoundary(create)],
+  create: [
+    hasProperties,
+    asyncErrorBoundary(validateReservation),
+    asyncErrorBoundary(create),
+  ],
   list,
+  listById,
 };
