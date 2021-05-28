@@ -9,10 +9,10 @@ export default function ReservationItem({ reservation }) {
     mobile_number,
     reservation_time,
     reservation_date,
-    status,
   } = reservation;
 
-const reservation_id = reservation.reservation_id
+const reservation_id = reservation.reservation_id;
+const status = reservation.status;
 
   return (
     <li className="reservation-list-item">
@@ -21,8 +21,8 @@ const reservation_id = reservation.reservation_id
       <div>{`Phone: ${mobile_number}`}</div>
       <div>{`Time: ${reservation_time}`}</div>
       <div>{`Date: ${reservation_date}`}</div>
-      <div>{`Status: ${status}`}</div>
-      <Link to={`/reservations/${reservation_id}/seat`}>Seat</Link>
+      <div data-reservation-id-status={reservation_id}>{`Status: ${status}`}</div>
+      {status === "booked" ? <Link to={`/reservations/${reservation_id}/seat`}>Seat</Link> : null}
     </li>
   );
 }

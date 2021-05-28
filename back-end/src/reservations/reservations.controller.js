@@ -42,6 +42,13 @@ async function listById(req, res, next) {
       });
 }
 
+async function updateReservation(req, res, next){
+  const { reservation_id } = req.params;
+  const data = await service.updateResStatus(Number(reservation_id), req.body.data.status)
+  res.json({data});
+}
+
+
 function validateReservation(req, res, next) {
   const {
     first_name,
@@ -106,14 +113,46 @@ function validateReservation(req, res, next) {
   }
 }
 
+async function statusValidation(req, res, next){
+  const {reservation_id} = req.params
+  const reservation = await service.listById(Number(reservation_id))
+  if(!reservation) return next({ status: 404, message: `Reservation Id: ${reservation_id} unknown`})
+  VALID_STATUS = ["booked", "seated", "finished"];
+  if(!VALID_STATUS.includes(req.body.data.status)){
+    return next({
+      status: 400,
+      message: `Status: ${req.body.data.status} unknown.`
+    });
+  }
+  if(reservation.status === "finished"){
+    return next({
+      status: 400,
+      message: "a finished reservation cannot be updated"
+    });
+  }
+  next();
+}
+
+async function isNewReservation(req, res, next){
+  const reservation = req.body.data;
+  if(reservation.status === "seated" || reservation.status === "finished"){
+    return next({
+      status: 400,
+      message: `${reservation.status} should be booked when creating a new reservation`
+    })
+  }
+  next();
+}
 
 
 module.exports = {
   create: [
     hasProperties,
     asyncErrorBoundary(validateReservation),
+    asyncErrorBoundary(isNewReservation),
     asyncErrorBoundary(create),
   ],
   list,
   listById,
+  updateReservation: [asyncErrorBoundary(statusValidation), asyncErrorBoundary(updateReservation)],
 };

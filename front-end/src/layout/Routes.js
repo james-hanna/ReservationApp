@@ -37,7 +37,6 @@ function Routes() {
   }
 
   function loadTables() {
-    console.log("loadTables has been reached")
     const abortController = new AbortController();
     setTablesError(null);
     return listTables(abortController.signal)

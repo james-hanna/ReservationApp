@@ -6,7 +6,7 @@ function create(reservation) {
     .then((reservations) => reservations[0]);
 }
 function listByDate(reservation_date) {
-  return knex("reservations").select("*").where({ reservation_date });
+  return knex("reservations").select("*").where({ reservation_date }).whereNot({ status: "finished"});
 }
 function listById(id) {
   return knex("reservations")

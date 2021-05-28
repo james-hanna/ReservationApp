@@ -21,7 +21,7 @@ export default function Dashboard({
 }) {
   const history = useHistory();
   const filteredReservations = reservations.filter(
-    (res) => res.reservation_date === date
+    (res) => res.reservation_date === date && res.status !== "finished"
   );
   return (
     <main>

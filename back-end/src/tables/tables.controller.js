@@ -23,6 +23,7 @@ async function list(req, res, next) {
 
 async function update(req, res, next) {
   const { reservation_id } = req.body.data;
+  await resService.updateResStatus(Number(reservation_id), "seated");
   const updatedTable = {
     ...res.locals.table,
     reservation_id: reservation_id,
@@ -32,7 +33,9 @@ async function update(req, res, next) {
 
 async function removeReservation(req, res, next) {
   const table = res.locals.table
-  const data = await service.removeResFromTable(table.table_id);
+  const res_id = table.reservation_id;
+  await service.removeResFromTable(table.table_id);
+  const data = await resService.updateResStatus(Number(res_id), "finished")
   res.json({data})
 }
 
@@ -134,12 +137,25 @@ async function isTableOccupied(req, res, next){
   next();
 }
 
+async function alreadySeated(req, res, next){
+  const status = res.locals.reservation.status;
+  if(status === "seated"){
+    return next({
+      status: 400,
+      message: "reservation is already seated"
+    })
+  }
+  next();
+}
+
+
 module.exports = {
   create: [hasProperties, validateTable, asyncErrorBoundary(create)],
   list,
   update: [
     asyncErrorBoundary(reservationValidation),
     asyncErrorBoundary(tableValidation),
+    asyncErrorBoundary(alreadySeated),
     asyncErrorBoundary(update),
   ],
   removeResFromTable: [asyncErrorBoundary(isTableOccupied), asyncErrorBoundary(removeReservation)],
