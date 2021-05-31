@@ -19,6 +19,10 @@ async function create(req, res, next) {
 
 async function list(req, res, next) {
   let reservations;
+  if(req.query.mobile_number){
+    reservations = await service.search(req.query.mobile_number)
+    return res.json({data: reservations})
+    }
   if (req.query.date) {
     reservations = await service.listByDate(req.query.date);
   } else {
