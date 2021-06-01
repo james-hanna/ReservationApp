@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationDisplay from "./ReservationDisplay";
@@ -12,7 +11,6 @@ export default function SearchByPhone() {
 
   const clickHandler = async(event) => {
     event.preventDefault();
-    console.log(phoneNum.mobile_number)
     const data = await listReservations({ mobile_number: phoneNum.mobile_number })
     data.length < 1 ? setStatus(false) : setResByPhone(data);
   };

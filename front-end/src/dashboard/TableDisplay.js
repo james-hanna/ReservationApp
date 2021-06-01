@@ -21,7 +21,7 @@ function TableDisplay({ tables, loadTables, loadReservations }) {
     <div>
       <ul className="tables_list">
         {tables.map((table, index) => (
-          <li key={index} className="table-list-item">
+          <li key={table.table_id} className="table-list-item">
             <h4>Table {table.table_id}:</h4>
             <div>Name: {table.table_name}</div>
             <div>Capacity: {table.capacity}</div>

@@ -1,12 +1,20 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { createReservation } from "../utils/api";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import {
+  createReservation,
+  getReservationById,
+  updateExistingReservation,
+} from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import formatReservationDate from "../utils/format-reservation-date";
+import formatReservationTime from "../utils/format-reservation-time"
 
-export default function NewReservationForm() {
+export default function NewReservationForm({ loadReservations }) {
   const history = useHistory();
 
-  const initialReservationData = {
+  const { reservation_id } = useParams();
+
+  let initialReservationData = {
     first_name: "",
     last_name: "",
     mobile_number: "",
@@ -14,18 +22,50 @@ export default function NewReservationForm() {
     reservation_time: "",
     people: 0,
   };
+
   const [errors, setErrors] = useState([]);
 
   const [reservationData, setReservationData] = useState({
     ...initialReservationData,
   });
 
+  useEffect(() => {
+    if (reservation_id) {
+      getReservationById(reservation_id)
+        .then((reservation) => {
+          formatReservationDate(reservation);
+          formatReservationTime(reservation)
+          setReservationData({
+            first_name: reservation.first_name,
+            last_name: reservation.last_name,
+            mobile_number: reservation.mobile_number,
+            reservation_date: reservation.reservation_date,
+            reservation_time: reservation.reservation_time,
+            people: reservation.people,
+          });
+        })
+        .catch(setErrors);
+    } else {
+      setReservationData({ ...initialReservationData });
+    }
+  }, [reservation_id]);
+
   const submitHandler = async (event) => {
     event.preventDefault();
     if (checkBusinessHours() !== false) {
-      await createReservation(reservationData).then((res) =>
-        history.push(`/dashboard?date=${reservationData.reservation_date}`)
-      );
+      try {
+        if (reservation_id) {
+          await updateExistingReservation(reservation_id,{...reservationData,reservation_id: reservation_id, status: "booked" });
+          await loadReservations();
+          history.push(`/dashboard?date=${reservationData.reservation_date}`);
+        } else {
+          await createReservation(reservationData).then((res) =>
+            history.push(`/dashboard?date=${reservationData.reservation_date}`)
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

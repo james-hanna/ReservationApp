@@ -21,7 +21,7 @@ export default function Dashboard({
 }) {
   const history = useHistory();
   const filteredReservations = reservations.filter(
-    (res) => res.reservation_date === date && res.status !== "finished"
+    (res) => res.reservation_date === date && res.status !== "finished" && res.status !== "cancelled"
   );
   return (
     <main>
@@ -48,7 +48,7 @@ export default function Dashboard({
         </button>
       </div>
       <div>
-        <ReservationDisplay filteredList={filteredReservations} />
+        <ReservationDisplay filteredList={filteredReservations} loadReservations={loadReservations}/>
       </div>
       <div>
         <TableDisplay tables={tables} loadTables={loadTables} loadReservations={loadReservations}/>

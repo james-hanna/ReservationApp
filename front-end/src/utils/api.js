@@ -52,7 +52,6 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
-
 /**
  * Retrieves all existing reservation.
  * @returns {Promise<[reservation]>}
@@ -69,7 +68,6 @@ export async function listReservations(params, signal) {
     .then(formatReservationTime);
 }
 
-
 export async function createReservation(reservation, signal) {
   const url = `${API_BASE_URL}/reservations`;
   const options = {
@@ -81,12 +79,10 @@ export async function createReservation(reservation, signal) {
   return await fetchJson(url, options);
 }
 
-
-export async function listTables(signal){
-  const url = new URL(`${API_BASE_URL}/tables`)
-return await fetchJson(url, {headers, signal}, [])
+export async function listTables(signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+  return await fetchJson(url, { headers, signal }, []);
 }
-
 
 export async function createTable(table, signal) {
   const url = `${API_BASE_URL}/tables`;
@@ -114,7 +110,6 @@ export async function getReservationById(reservation_id) {
   return await fetchJson(url, { headers }, []);
 }
 
-
 export async function deleteReservationFromTable(tableId) {
   const url = new URL(`${API_BASE_URL}/tables/${tableId}/seat`);
   return await fetchJson(url, { method: "DELETE", headers }, []);
@@ -124,7 +119,23 @@ export async function updateReservationStatus(reservation_id, status, signal) {
   const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
   return await fetchJson(
     url,
-    { method: "PUT", headers, signal, body: JSON.stringify({ data: { status } }) },
+    {
+      method: "PUT",
+      headers,
+      signal,
+      body: JSON.stringify({ data: { status } }),
+    },
     []
   );
+}
+
+export async function updateExistingReservation(reservation_id, newResData, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/edit`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data: newResData}),
+    signal,
+  };
+  return await fetchJson(url, options, {});
 }
