@@ -14,13 +14,15 @@ label{
 .reservation-list{
     height: 500px;
     overflow: auto;
-    border: 1px solid white
+    border: 1px solid white;
+    background-color: #2a2b30;
 }
 
 .table-list{
     height: 500px;
     overflow: auto;
     border: 1px solid white;
+    background-color: #2a2b30
 }
 .reservation-date-area{
     height: 150px;

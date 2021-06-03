@@ -68,15 +68,15 @@ export default function NewTableForm() {
   };
 
   return (
-    <div class="container pl-0">
+    <div className="container pl-0">
       <div className="dashboard-title">
         <h1>Add / Edit Table</h1>
       </div>
 
       <hr className="page-title-separator" />
 
-      <div class="row justify-content-center align-items-center h-100 px-5">
-        <div class="col col-sm-12 col-md-6 col-lg-4 col-xl-4">
+      <div className="row justify-content-center align-items-center h-100 px-5">
+        <div className="col col-sm-12 col-md-6 col-lg-4 col-xl-4">
           <form>
             {errorList()}
             <div className="form-group">

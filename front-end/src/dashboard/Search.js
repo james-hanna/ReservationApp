@@ -29,7 +29,7 @@ export default function SearchByPhone() {
   };
 
   return (
-    <div class="container ">
+    <div className="container ">
     <div className="dashboard-title">
       <h1>Search</h1>
     </div>
