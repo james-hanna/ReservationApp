@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationDisplay from "./ReservationDisplay";
+/* eslint-disable */
 
 export default function SearchByPhone() {
   const [phoneNum, setPhoneNum] = useState({});
@@ -28,10 +29,18 @@ export default function SearchByPhone() {
   };
 
   return (
-    <div>
+    <div class="container ">
+    <div className="dashboard-title">
+      <h1>Search</h1>
+    </div>
+
+    <hr className="page-title-separator" />
       <form>
+        <div className="form-group">
+        <label>Search for a Reservation: </label>
         <input
           name="mobile_number"
+          className="form-control mb-2"
           value={phoneNum.mobile_number}
           placeholder="Enter a customer's phone number"
           type="text"
@@ -42,9 +51,12 @@ export default function SearchByPhone() {
         <button type="submit" onClick={clickHandler}>
           Find
         </button>
+        </div>
       </form>
       {errorList()}
-      {status ? <ReservationDisplay filteredList={resByPhone} /> : <p>No reservations found</p>}
+      <div className="container-fluid p-0">
+      {status ? <ReservationDisplay filteredList={resByPhone} /> : <p style={{color:"yellow"}}>No reservations found</p>}
+      </div>
     </div>
   );
 }

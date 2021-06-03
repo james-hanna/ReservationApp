@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import {  createTable } from "../utils/api";
+import { createTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import { today } from "../utils/date-time"
+import { today } from "../utils/date-time";
 
 export default function NewTableForm() {
   const history = useHistory();
@@ -21,11 +21,11 @@ export default function NewTableForm() {
   const submitHandler = async (event) => {
     event.preventDefault();
     if (checkTableReqs() !== false) {
-      await createTable(tableData)
-      .then((res) => history.push(`/dashboard?date=${today()}`)
-      )
-  }
-}
+      await createTable(tableData).then((res) =>
+        history.push(`/dashboard?date=${today()}`)
+      );
+    }
+  };
 
   const nameHandler = ({ target }) => {
     setTableData({
@@ -58,9 +58,9 @@ export default function NewTableForm() {
         message: "Error: table must hold at least one person.",
       });
     }
-    
+
     setErrors(foundErrors);
-    return (errors.length === 0) 
+    return errors.length === 0;
   };
 
   const errorList = () => {
@@ -68,32 +68,50 @@ export default function NewTableForm() {
   };
 
   return (
-    <form>
-      {errorList()}
-      <input
-        value={tableData.table_name}
-        onChange={nameHandler}
-        id="table_name"
-        placeholder="Table Name"
-        type="text"
-        name="table_name"
-        required
-      />
-      <input
-        value={tableData.capacity}
-        onChange={capacityHandler}
-        id="capacity"
-        placeholder="Capacity"
-        type="number"
-        name="capacity"
-        required
-      />
-      <button type="submit" onClick={submitHandler}>
-        Submit
-      </button>
-      <button type="cancel" onClick={cancelHandler}>
-        Cancel
-      </button>
-    </form>
+    <div class="container pl-0">
+      <div className="dashboard-title">
+        <h1>Add / Edit Table</h1>
+      </div>
+
+      <hr className="page-title-separator" />
+
+      <div class="row justify-content-center align-items-center h-100 px-5">
+        <div class="col col-sm-12 col-md-6 col-lg-4 col-xl-4">
+          <form>
+            {errorList()}
+            <div className="form-group">
+            <label>Table Name:</label>
+            <input
+              value={tableData.table_name}
+              className="form-control"
+              onChange={nameHandler}
+              id="table_name"
+              placeholder="Table Name"
+              type="text"
+              name="table_name"
+              required
+            />
+            <label>Capacity</label>
+            <input
+              value={tableData.capacity}
+              onChange={capacityHandler}
+              className="form-control mb-2"
+              id="capacity"
+              placeholder="Capacity"
+              type="number"
+              name="capacity"
+              required
+            />
+            <button type="submit" onClick={submitHandler}>
+              Submit
+            </button>
+            <button type="cancel" onClick={cancelHandler}>
+              Cancel
+            </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }

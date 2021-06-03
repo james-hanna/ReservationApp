@@ -3,7 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
 import { seatReservation, getReservationById } from "../utils/api";
 import formatReservationDate from "../utils/format-reservation-date";
-
+/* eslint-disable */
 export default function SeatReservation({
   tables,
   reservations,

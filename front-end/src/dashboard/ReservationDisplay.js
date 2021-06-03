@@ -4,7 +4,7 @@ import ReservationItem from "./ReservationItem.js";
 function ReservationDisplay({ filteredList, loadReservations }) {
   return (
     <div>
-      <ul className="reservations_list">
+      <ul className="reservations_list p-0">
         {filteredList.map((res) => (
             <ReservationItem key={res.reservation_id} reservation={res} loadReservations={loadReservations} />  
         ))}

@@ -3,7 +3,7 @@ import ReservationDisplay from "./ReservationDisplay";
 import TableDisplay from "./TableDisplay";
 import { useHistory } from "react-router-dom";
 import { previous, today, next } from "../utils/date-time";
-
+import "./Dashboard.css";
 /**
  * Defines the dashboard page.
  * @param date
@@ -17,41 +17,73 @@ export default function Dashboard({
   tables,
   tablesError,
   loadTables,
-  loadReservations
+  loadReservations,
 }) {
   const history = useHistory();
   const filteredReservations = reservations.filter(
-    (res) => res.reservation_date === date && res.status !== "finished" && res.status !== "cancelled"
+    (res) =>
+      res.reservation_date === date &&
+      res.status !== "finished" &&
+      res.status !== "cancelled"
   );
   return (
-    <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {date}</h4>
-        <button
-          type="button"
-          onClick={() => history.push(`/dashboard?date=${previous(date)}`)}
-        >
-          Previous
-        </button>
-        <button
-          type="button"
-          onClick={() => history.push(`/dashboard?date=${today()}`)}
-        >
-          Today
-        </button>
-        <button
-          type="button"
-          onClick={() => history.push(`/dashboard?date=${next(date)}`)}
-        >
-          Next
-        </button>
+    <main className="main container-fluid">
+      <div className="dashboard-title">
+        <h1>Dashboard</h1>
       </div>
-      <div>
-        <ReservationDisplay filteredList={filteredReservations} loadReservations={loadReservations}/>
-      </div>
-      <div>
-        <TableDisplay tables={tables} loadTables={loadTables} loadReservations={loadReservations}/>
+
+      <hr className="page-title-separator" />
+
+      <div className="row">
+        <div className="col-sm-12 col-md-6 col-lg-6">
+          <div className="reservation-date-area container col">
+            <h4 className="section-title row justify-content-center">Reservations:</h4>
+
+            <p className="date-display row justify-content-center">Date: {date}</p>
+            <div className="button-row row justify-content-center">
+            <button
+              type="button"
+              className="btn btn-light btn-sm mx-1 p-0"
+              onClick={() => history.push(`/dashboard?date=${previous(date)}`)}
+            >
+              {`< Previous`}
+            </button>
+            <button
+              type="button"
+              className="btn btn-light btn-sm mx-1 p-0"
+              onClick={() => history.push(`/dashboard?date=${today()}`)}
+            >
+              Today
+            </button>
+            <button
+              type="button"
+              className="btn btn-light btn-sm mx-1 p-0"
+              onClick={() => history.push(`/dashboard?date=${next(date)}`)}
+            >
+              {`Next >`}
+            </button>
+          </div>
+          </div>
+          <div className="reservation-list">
+            <ReservationDisplay
+              filteredList={filteredReservations}
+              loadReservations={loadReservations}
+            />
+          </div>
+        </div>
+
+        <div className="col-sm-12 col-md-6 col-lg-6">
+          <div className="table-list-area container col">
+              <h4 className="section-title row justify-content-center">Tables:</h4>
+          </div>
+          <div className="table-list">
+            <TableDisplay
+              tables={tables}
+              loadTables={loadTables}
+              loadReservations={loadReservations}
+            />
+          </div>
+        </div>
       </div>
     </main>
   );

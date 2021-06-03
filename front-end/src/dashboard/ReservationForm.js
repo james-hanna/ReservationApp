@@ -7,13 +7,13 @@ import {
 } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import formatReservationDate from "../utils/format-reservation-date";
-import formatReservationTime from "../utils/format-reservation-time"
+import formatReservationTime from "../utils/format-reservation-time";
 
 export default function NewReservationForm({ loadReservations }) {
   const history = useHistory();
 
   const { reservation_id } = useParams();
-
+  /* eslint-disable */
   let initialReservationData = {
     first_name: "",
     last_name: "",
@@ -34,7 +34,7 @@ export default function NewReservationForm({ loadReservations }) {
       getReservationById(reservation_id)
         .then((reservation) => {
           formatReservationDate(reservation);
-          formatReservationTime(reservation)
+          formatReservationTime(reservation);
           setReservationData({
             first_name: reservation.first_name,
             last_name: reservation.last_name,
@@ -55,7 +55,11 @@ export default function NewReservationForm({ loadReservations }) {
     if (checkBusinessHours() !== false) {
       try {
         if (reservation_id) {
-          await updateExistingReservation(reservation_id,{...reservationData,reservation_id: reservation_id, status: "booked" });
+          await updateExistingReservation(reservation_id, {
+            ...reservationData,
+            reservation_id: reservation_id,
+            status: "booked",
+          });
           await loadReservations();
           history.push(`/dashboard?date=${reservationData.reservation_date}`);
         } else {
@@ -126,68 +130,97 @@ export default function NewReservationForm({ loadReservations }) {
   };
 
   return (
-    <form>
-      {errorList()}
-      <input
-        value={reservationData.first_name}
-        onChange={changeHandler}
-        id="first_name"
-        placeholder="First name"
-        type="text"
-        name="first_name"
-        required
-      />
-      <input
-        value={reservationData.last_name}
-        onChange={changeHandler}
-        id="last_name"
-        placeholder="Last name"
-        type="text"
-        name="last_name"
-        required
-      />
-      <input
-        value={reservationData.mobile_number}
-        onChange={changeHandler}
-        id="mobile_number"
-        placeholder="Phone Number"
-        type="tel"
-        name="mobile_number"
-        required
-      />
-      <input
-        value={reservationData.reservation_date}
-        onChange={changeHandler}
-        id="reservation_date"
-        placeholder="reservation_date"
-        type="date"
-        name="reservation_date"
-        required
-      />
-      <input
-        value={reservationData.reservation_time}
-        onChange={changeHandler}
-        id="reservation_time"
-        placeholder="reservation_time"
-        type="time"
-        name="reservation_time"
-        required
-      />
-      <input
-        value={reservationData.people}
-        onChange={peopleHandler}
-        id="people"
-        placeholder="1"
-        type="number"
-        name="people"
-        required
-      />
-      <button type="submit" onClick={submitHandler}>
-        Submit
-      </button>
-      <button type="cancel" onClick={cancelHandler}>
-        Cancel
-      </button>
-    </form>
+    <div class="container pl-0">
+      <div className="dashboard-title">
+        <h1>Add / Edit Reservation</h1>
+      </div>
+
+      <hr className="page-title-separator" />
+
+      <div class="row justify-content-center align-items-center h-100 px-5">
+        <div class="col col-sm-12 col-md-6 col-lg-4 col-xl-4">
+          <form>
+            {errorList()}
+            <div className="form-group">
+              <label>First Name</label>
+              <input
+                value={reservationData.first_name}
+                onChange={changeHandler}
+                id="first_name"
+                placeholder="Enter a First Name"
+                type="text"
+                name="first_name"
+                className="form-control"
+                required
+              />
+              <label>Last Name</label>
+              <input
+                value={reservationData.last_name}
+                onChange={changeHandler}
+                id="last_name"
+                placeholder="Enter a Last Name"
+                type="text"
+                name="last_name"
+                className="form-control"
+                required
+              />
+              <label>Phone Number</label>
+
+              <input
+                value={reservationData.mobile_number}
+                onChange={changeHandler}
+                id="mobile_number"
+                placeholder="Enter a Phone Number"
+                type="tel"
+                name="mobile_number"
+                className="form-control"
+                required
+              />
+              <label>Reservation Date</label>
+
+              <input
+                value={reservationData.reservation_date}
+                onChange={changeHandler}
+                id="reservation_date"
+                type="date"
+                name="reservation_date"
+                className="form-control"
+                required
+              />
+              <label>Reservation Time</label>
+
+              <input
+                value={reservationData.reservation_time}
+                onChange={changeHandler}
+                id="reservation_time"
+                type="time"
+                name="reservation_time"
+                className="form-control"
+                required
+              />
+              <label>Party Size</label>
+
+              <input
+                value={reservationData.people}
+                onChange={peopleHandler}
+                id="people"
+                type="number"
+                name="people"
+                className="form-control mb-3"
+                required
+              />
+              <div>
+              <button className="mx-2"type="submit" onClick={submitHandler}>
+                Submit
+              </button>
+              <button type="cancel" onClick={cancelHandler}>
+                Cancel
+              </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }
