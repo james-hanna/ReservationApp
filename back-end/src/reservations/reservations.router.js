@@ -14,8 +14,6 @@ router.route("/:reservation_id/status").put(controller.updateReservation).all(me
 
 router.route("/:reservation_Id").get(controller.listById).put(controller.update).all(methodNotAllowed);
 
-//router.route("/new").post(controller.create).all(methodNotAllowed);
-
 router.route("/").get(controller.list).post(controller.create).all(methodNotAllowed);
 
 module.exports = router;
