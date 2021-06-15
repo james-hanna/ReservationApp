@@ -91,16 +91,7 @@ The app's functionality includes:
 
 
 
-### 5. Wireframes
-(Example) Landing Page
-:-------------------------:
-![Landing Page](/github-images/wireframes/landing-page-wireframe.png)
-Register Page
-![Register Page](/github-images/wireframes/register-page-wireframe.png)
-
-
-
-### 6. Front-end Structure - React Components Map
+### 5. Front-end Structure - React Components Map
 * __Index.js__ 
     * __App.js__ 
         * __Layout.js__
@@ -115,7 +106,7 @@ Register Page
 
 
 
-### 7. API Documentation
+### 6. API Documentation
 
 | Endpoint                               | Method | Description                                                                                           |
 | -------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------- |
@@ -130,27 +121,27 @@ Register Page
 | `/tables/:tableId/seat`                | DELETE | Clears a table for future use.                                                                        |
 
 
-### 9. Screenshots
+### 7. Screenshots
 Dashboard
 :-------------------------:
-![Dashboard](https://imgur.com/dcpANT9)
+![Dashboard](/images/dashboard.png)
 
 Search
 :-------------------------:
-![Search](https://imgur.com/DDEBNRu)
+![Search](/images/search.png)
 
 Add Reservation
 :-------------------------:
-![Add Reservation](https://imgur.com/g7fgto2)
+![Add Reservation](/images/addRes.png)
 
 Add Table
 :-------------------------:
-![Add Table](https://imgur.com/qgp5oth)
+![Add Table](/images/addTable.png)
 
 
 
 
-### 11. How to run it 
+### 8. How to run it 
 Use command line to navigate into the project folder and run the following in terminal
 
 ##### Local React scripts
