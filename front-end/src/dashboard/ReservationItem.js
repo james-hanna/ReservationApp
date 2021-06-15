@@ -31,95 +31,117 @@ export default function ReservationItem({ reservation, loadReservations }) {
 
   return (
     <li>
-      {status === "booked"
-      ? <div className="card" style={{backgroundColor: "lightgreen", border: "solid 1px green", marginBottom: "15px"}}>
-        <div className="card-body">
-          <h5>Reservation {reservation_id}:</h5>
-          <div>{`Name: ${first_name} ${last_name}`}</div>
-          <div>{`Phone: ${mobile_number}`}</div>
-          <div>{`Time: ${reservation_time}`}</div>
-          <div>{`Date: ${reservation_date}`}</div>
-          <div>{`Party Size: ${people}`}</div>
-          <div
-            data-reservation-id-status={reservation_id}
-          >{`Status: ${status}`}</div>
-          {status === "booked" ? (
+      {status === "booked" ? (
+        <div
+          className="card"
+          style={{
+            backgroundColor: "lightgreen",
+            border: "solid 1px green",
+            marginBottom: "15px",
+          }}
+        >
+          <div className="card-body">
+            <h5>Reservation {reservation_id}:</h5>
+            <div>{`Name: ${first_name} ${last_name}`}</div>
+            <div>{`Phone: ${mobile_number}`}</div>
+            <div>{`Time: ${reservation_time}`}</div>
+            <div>{`Date: ${reservation_date}`}</div>
+            <div>{`Party Size: ${people}`}</div>
+            <div
+              data-reservation-id-status={reservation_id}
+            >{`Status: ${status}`}</div>
+            {status === "booked" ? (
+              <a
+                href={`/reservations/${reservation_id}/seat`}
+                className="btn btn-primary btn-sm mx-1"
+              >
+                Seat
+              </a>
+            ) : null}
             <a
-              href={`/reservations/${reservation_id}/seat`}
+              href={`/reservations/${reservation_id}/edit`}
               className="btn btn-primary btn-sm mx-1"
             >
-              Seat
+              Edit
             </a>
-          ) : null}
-          <a
-            href={`/reservations/${reservation_id}/edit`}
-            className="btn btn-primary btn-sm mx-1"
-          >
-            Edit
-          </a>
-          <button
-            className="btn btn-danger btn-sm mx-1"
-            onClick={() => cancelHandler(reservation_id)}
-            data-reservation-id-cancel={reservation_id}
-          >
-            Cancel
-          </button>
+            <button
+              className="btn btn-danger btn-sm mx-1"
+              onClick={() => cancelHandler(reservation_id)}
+              data-reservation-id-cancel={reservation_id}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-      </div>
-      : status === "seated"
-      ? <div className="card" style={{backgroundColor: "lightyellow" , border: "solid 1px yellow", marginBottom: "15px"}}>
+      ) : status === "seated" ? (
+        <div
+          className="card"
+          style={{
+            backgroundColor: "lightyellow",
+            border: "solid 1px yellow",
+            marginBottom: "15px",
+          }}
+        >
           <div className="card-body">
-          <h5>Reservation {reservation_id}:</h5>
-          <div>{`Name: ${first_name} ${last_name}`}</div>
-          <div>{`Phone: ${mobile_number}`}</div>
-          <div>{`Time: ${reservation_time}`}</div>
-          <div>{`Date: ${reservation_date}`}</div>
-          <div>{`Party Size: ${people}`}</div>
-          <div
-            data-reservation-id-status={reservation_id}
-          >{`Status: ${status}`}</div>
-          <a
-            href={`/reservations/${reservation_id}/edit`}
-            className="btn btn-primary btn-sm mx-1"
-          >
-            Edit
-          </a>
-          <button
-            className="btn btn-danger btn-sm mx-1"
-            onClick={() => cancelHandler(reservation_id)}
-            data-reservation-id-cancel={reservation_id}
-          >
-            Cancel
-          </button>
+            <h5>Reservation {reservation_id}:</h5>
+            <div>{`Name: ${first_name} ${last_name}`}</div>
+            <div>{`Phone: ${mobile_number}`}</div>
+            <div>{`Time: ${reservation_time}`}</div>
+            <div>{`Date: ${reservation_date}`}</div>
+            <div>{`Party Size: ${people}`}</div>
+            <div
+              data-reservation-id-status={reservation_id}
+            >{`Status: ${status}`}</div>
+            <a
+              href={`/reservations/${reservation_id}/edit`}
+              className="btn btn-primary btn-sm mx-1"
+            >
+              Edit
+            </a>
+            <button
+              className="btn btn-danger btn-sm mx-1"
+              onClick={() => cancelHandler(reservation_id)}
+              data-reservation-id-cancel={reservation_id}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-      </div>
-      : <div className="card" style={{backgroundColor: "grey" , border: "solid 1px red", marginBottom: "15px"}}>
-      <div className="card-body">
-      <h5>Reservation {reservation_id}:</h5>
-      <div>{`Name: ${first_name} ${last_name}`}</div>
-      <div>{`Phone: ${mobile_number}`}</div>
-      <div>{`Time: ${reservation_time}`}</div>
-      <div>{`Date: ${reservation_date}`}</div>
-      <div>{`Party Size: ${people}`}</div>
-      <div
-        data-reservation-id-status={reservation_id}
-      >{`Status: ${status}`}</div>
-      <a
-        href={`/reservations/${reservation_id}/edit`}
-        className="btn btn-primary btn-sm mx-1"
-      >
-        Edit
-      </a>
-      <button
-        className="btn btn-danger btn-sm mx-1"
-        onClick={() => cancelHandler(reservation_id)}
-        data-reservation-id-cancel={reservation_id}
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-      }
+      ) : (
+        <div
+          className="card"
+          style={{
+            backgroundColor: "grey",
+            border: "solid 1px red",
+            marginBottom: "15px",
+          }}
+        >
+          <div className="card-body">
+            <h5>Reservation {reservation_id}:</h5>
+            <div>{`Name: ${first_name} ${last_name}`}</div>
+            <div>{`Phone: ${mobile_number}`}</div>
+            <div>{`Time: ${reservation_time}`}</div>
+            <div>{`Date: ${reservation_date}`}</div>
+            <div>{`Party Size: ${people}`}</div>
+            <div
+              data-reservation-id-status={reservation_id}
+            >{`Status: ${status}`}</div>
+            <a
+              href={`/reservations/${reservation_id}/edit`}
+              className="btn btn-primary btn-sm mx-1"
+            >
+              Edit
+            </a>
+            <button
+              className="btn btn-danger btn-sm mx-1"
+              onClick={() => cancelHandler(reservation_id)}
+              data-reservation-id-cancel={reservation_id}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </li>
   );
 }

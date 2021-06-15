@@ -80,34 +80,34 @@ export default function NewTableForm() {
           <form>
             {errorList()}
             <div className="form-group">
-            <label>Table Name:</label>
-            <input
-              value={tableData.table_name}
-              className="form-control"
-              onChange={nameHandler}
-              id="table_name"
-              placeholder="Table Name"
-              type="text"
-              name="table_name"
-              required
-            />
-            <label>Capacity</label>
-            <input
-              value={tableData.capacity}
-              onChange={capacityHandler}
-              className="form-control mb-2"
-              id="capacity"
-              placeholder="Capacity"
-              type="number"
-              name="capacity"
-              required
-            />
-            <button type="submit" onClick={submitHandler}>
-              Submit
-            </button>
-            <button type="cancel" onClick={cancelHandler}>
-              Cancel
-            </button>
+              <label>Table Name:</label>
+              <input
+                value={tableData.table_name}
+                className="form-control"
+                onChange={nameHandler}
+                id="table_name"
+                placeholder="Table Name"
+                type="text"
+                name="table_name"
+                required
+              />
+              <label>Capacity</label>
+              <input
+                value={tableData.capacity}
+                onChange={capacityHandler}
+                className="form-control mb-2"
+                id="capacity"
+                placeholder="Capacity"
+                type="number"
+                name="capacity"
+                required
+              />
+              <button type="submit" onClick={submitHandler}>
+                Submit
+              </button>
+              <button type="cancel" onClick={cancelHandler}>
+                Cancel
+              </button>
             </div>
           </form>
         </div>

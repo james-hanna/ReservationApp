@@ -37,32 +37,38 @@ export default function Dashboard({
       <div className="row">
         <div className="col-sm-12 col-md-6 col-lg-6">
           <div className="reservation-date-area container col">
-            <h4 className="section-title row justify-content-center">Reservations:</h4>
+            <h4 className="section-title row justify-content-center">
+              Reservations:
+            </h4>
 
-            <p className="date-display row justify-content-center">Date: {date}</p>
+            <p className="date-display row justify-content-center">
+              Date: {date}
+            </p>
             <div className="button-row row justify-content-center">
-            <button
-              type="button"
-              className="btn btn-light btn-sm mx-1 p-0"
-              onClick={() => history.push(`/dashboard?date=${previous(date)}`)}
-            >
-              {`< Previous`}
-            </button>
-            <button
-              type="button"
-              className="btn btn-light btn-sm mx-1 p-0"
-              onClick={() => history.push(`/dashboard?date=${today()}`)}
-            >
-              Today
-            </button>
-            <button
-              type="button"
-              className="btn btn-light btn-sm mx-1 p-0"
-              onClick={() => history.push(`/dashboard?date=${next(date)}`)}
-            >
-              {`Next >`}
-            </button>
-          </div>
+              <button
+                type="button"
+                className="btn btn-light btn-sm mx-1 p-0"
+                onClick={() =>
+                  history.push(`/dashboard?date=${previous(date)}`)
+                }
+              >
+                {`< Previous`}
+              </button>
+              <button
+                type="button"
+                className="btn btn-light btn-sm mx-1 p-0"
+                onClick={() => history.push(`/dashboard?date=${today()}`)}
+              >
+                Today
+              </button>
+              <button
+                type="button"
+                className="btn btn-light btn-sm mx-1 p-0"
+                onClick={() => history.push(`/dashboard?date=${next(date)}`)}
+              >
+                {`Next >`}
+              </button>
+            </div>
           </div>
           <div className="reservation-list">
             <ReservationDisplay
@@ -74,7 +80,9 @@ export default function Dashboard({
 
         <div className="col-sm-12 col-md-6 col-lg-6">
           <div className="table-list-area container col">
-              <h4 className="section-title row justify-content-center">Tables:</h4>
+            <h4 className="section-title row justify-content-center">
+              Tables:
+            </h4>
           </div>
           <div className="table-list">
             <TableDisplay

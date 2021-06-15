@@ -41,7 +41,7 @@ export default function SeatReservation({
     }
     setDataError(errors);
     return valid;
-  }
+  };
 
   async function submitHandler(event) {
     event.preventDefault();
@@ -53,7 +53,7 @@ export default function SeatReservation({
         formatReservationDate(reservationData);
         history.push(`/dashboard?date=${reservationData.reservation_date}`);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
   }
@@ -86,7 +86,9 @@ export default function SeatReservation({
           </option>
         ))}
       </select>
-      <button type="submit" onClick={submitHandler}>Submit</button>
+      <button type="submit" onClick={submitHandler}>
+        Submit
+      </button>
       <button onClick={cancelHandler}>Cancel</button>
     </div>
   );

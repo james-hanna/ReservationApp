@@ -210,12 +210,12 @@ export default function NewReservationForm({ loadReservations }) {
                 required
               />
               <div>
-              <button className="mx-2"type="submit" onClick={submitHandler}>
-                Submit
-              </button>
-              <button type="cancel" onClick={cancelHandler}>
-                Cancel
-              </button>
+                <button className="mx-2" type="submit" onClick={submitHandler}>
+                  Submit
+                </button>
+                <button type="cancel" onClick={cancelHandler}>
+                  Cancel
+                </button>
               </div>
             </div>
           </form>

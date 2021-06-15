@@ -21,26 +21,30 @@ function Menu() {
           </div>
         </Link>
         <hr className="sidebar-divider my-0" />
-        <ul className="nav navbar-nav text-light flex-row" style={{fontSize: 13}} id="accordionSidebar">
-          <li className="nav-item" style={{paddingRight: 5}}>
+        <ul
+          className="nav navbar-nav text-light flex-row"
+          style={{ fontSize: 13 }}
+          id="accordionSidebar"
+        >
+          <li className="nav-item" style={{ paddingRight: 5 }}>
             <Link className="nav-link" to="/dashboard">
               <span className="oi oi-dashboard" />
               &nbsp;Dashboard
             </Link>
           </li>
-          <li className="nav-item" style={{paddingRight: 5}}>
+          <li className="nav-item" style={{ paddingRight: 5 }}>
             <Link className="nav-link" to="/search">
               <span className="oi oi-magnifying-glass" />
               &nbsp;Search
             </Link>
           </li>
-          <li className="nav-item" style={{paddingRight: 5}}>
+          <li className="nav-item" style={{ paddingRight: 5 }}>
             <Link className="nav-link" to="/reservations/new">
               <span className="oi oi-plus" />
               &nbsp;New Reservation
             </Link>
           </li>
-          <li className="nav-item" style={{paddingRight: 5}}>
+          <li className="nav-item" style={{ paddingRight: 5 }}>
             <Link className="nav-link" to="/tables/new">
               <span className="oi oi-layers" />
               &nbsp;New Table

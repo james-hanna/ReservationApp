@@ -6,7 +6,8 @@ import formatReservationDate from "./format-reservation-date";
 import formatReservationTime from "./format-reservation-date";
 
 const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "https://reservation-app-backend.vercel.app";
+  process.env.REACT_APP_API_BASE_URL ||
+  "https://reservation-app-backend.vercel.app";
 
 /**
  * Defines the default headers for these functions to work with `json-server`
@@ -129,12 +130,16 @@ export async function updateReservationStatus(reservation_id, status, signal) {
   );
 }
 
-export async function updateExistingReservation(reservation_id, newResData, signal) {
+export async function updateExistingReservation(
+  reservation_id,
+  newResData,
+  signal
+) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}/edit`;
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({data: newResData}),
+    body: JSON.stringify({ data: newResData }),
     signal,
   };
   return await fetchJson(url, options, {});

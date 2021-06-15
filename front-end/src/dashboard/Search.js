@@ -10,9 +10,11 @@ export default function SearchByPhone() {
   const [resByPhone, setResByPhone] = useState([]);
   const [status, setStatus] = useState(true);
 
-  const clickHandler = async(event) => {
+  const clickHandler = async (event) => {
     event.preventDefault();
-    const data = await listReservations({ mobile_number: phoneNum.mobile_number })
+    const data = await listReservations({
+      mobile_number: phoneNum.mobile_number,
+    });
     data.length < 1 ? setStatus(false) : setResByPhone(data);
   };
 
@@ -30,32 +32,36 @@ export default function SearchByPhone() {
 
   return (
     <div className="container ">
-    <div className="dashboard-title">
-      <h1>Search</h1>
-    </div>
+      <div className="dashboard-title">
+        <h1>Search</h1>
+      </div>
 
-    <hr className="page-title-separator" />
+      <hr className="page-title-separator" />
       <form>
         <div className="form-group">
-        <label>Search for a Reservation: </label>
-        <input
-          name="mobile_number"
-          className="form-control mb-2"
-          value={phoneNum.mobile_number}
-          placeholder="Enter a customer's phone number"
-          type="text"
-          id="mobile_number"
-          onChange={changeHandler}
-          required
-        />
-        <button type="submit" onClick={clickHandler}>
-          Find
-        </button>
+          <label>Search for a Reservation: </label>
+          <input
+            name="mobile_number"
+            className="form-control mb-2"
+            value={phoneNum.mobile_number}
+            placeholder="Enter a customer's phone number"
+            type="text"
+            id="mobile_number"
+            onChange={changeHandler}
+            required
+          />
+          <button type="submit" onClick={clickHandler}>
+            Find
+          </button>
         </div>
       </form>
       {errorList()}
       <div className="container-fluid p-0">
-      {status ? <ReservationDisplay filteredList={resByPhone} /> : <p style={{color:"yellow"}}>No reservations found</p>}
+        {status ? (
+          <ReservationDisplay filteredList={resByPhone} />
+        ) : (
+          <p style={{ color: "yellow" }}>No reservations found</p>
+        )}
       </div>
     </div>
   );

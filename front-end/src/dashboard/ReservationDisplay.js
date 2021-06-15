@@ -6,7 +6,11 @@ function ReservationDisplay({ filteredList, loadReservations }) {
     <div>
       <ul className="reservations_list p-0">
         {filteredList.map((res) => (
-            <ReservationItem key={res.reservation_id} reservation={res} loadReservations={loadReservations} />  
+          <ReservationItem
+            key={res.reservation_id}
+            reservation={res}
+            loadReservations={loadReservations}
+          />
         ))}
       </ul>
     </div>

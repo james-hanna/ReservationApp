@@ -57,7 +57,7 @@ function Routes() {
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/reservations/:reservation_id/edit">
-        <NewReservationForm loadReservations={loadReservations}/>
+        <NewReservationForm loadReservations={loadReservations} />
       </Route>
       <Route path="/reservations/:reservation_id/seat">
         <SeatReservation
